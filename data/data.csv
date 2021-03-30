@@ -1,0 +1,13 @@
+matiere;categorie;nb_heure;date_pre_cours;date_dern_cours;description
+anglais;communication et management;27;9/12/20;2/24/21;apprentissage de la langue anglaise
+bi;big data;30;9/14/20;1/15/21;apprentissage de la business intelligence
+communication_pro;communication et management;15;9/16/20;11/10/20;apprendre à mieux communiquer
+deep_learning;big data;15;9/24/20;2/25/21;decouverte d'algorithmes de deep learning
+cours_electif;communication et management;15;9/15/20;2/10/21;cours electif permettant à chacun de développer des connaissances dans le module de son choix
+aws;big data;30;9/10/20;2/11/21;decouverte de l'environnement aws
+management;communication et management;15;10/12/20;1/12/21;apprentissage des notions principales de management
+mathématiques;maths;15;10/24/20;2/24/21;developpement de connaissances mathématiques pour le big data
+scala;big data;15;10/17/20;1/27/21;developpement scala
+spark;big data;30;10/20/20;2/24/21;developpement scala
+e-learning;communication et management;20;10/20/20;2/24/21;apprentissage de notions sur des plateformes differentes
+open;communication et management;0;9/8/20;2/24/21;associations esgi
