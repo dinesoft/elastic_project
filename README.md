@@ -2,7 +2,7 @@
 
 ## L'équipe
 
-Le groupe d'étude est formé de **Khalida OUAMAR** *(Khalida-OUAMAR)*, **Binta SAKO** *(dinesoft)*, **Amandine Thivet** *(dinesoft)* et **Alexandre DAVOINE** *(alexdav2b)*  étudiants en 4IABD2 (groupe 2)
+Le groupe d'étude est formé de **Khalida OUAMAR** *(Khalida-OUAMAR)*, **Binta SAKO** *(Fabisakho)*, **Amandine Thivet** *(dinesoft)* et **Alexandre DAVOINE** *(alexdav2b)*  étudiants en 4IABD2 (groupe 2)
 
 ## Le sujet
 
