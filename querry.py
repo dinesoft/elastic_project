@@ -4,7 +4,7 @@ import json
 
 # configure elasticsearch
 
-FILE_URL = "data.csv"
+FILE_URL = "D:/Etudes/ESGI/M1/S2/elastic_search/data.csv"
 ES_HOST = {"host" : "localhost", "port" : 9200}
 INDEX_NAME = 'esgi'
 TYPE_NAME = 'matiere'
@@ -76,7 +76,7 @@ class ES:
         }
         print("creating '%s' index..." % (self.index_name))
         res = es.indices.create(index = self.index_name, body = request_body)
-        print(" response: '%s'\n\n" % (res))
+        print("response: '%s'\n\n" % (res))
 
     def insert_es_data(self, es, data):
         res = es.bulk(index = self.index_name, body = data, refresh = True)
@@ -84,7 +84,16 @@ class ES:
 
     def es_search(self, es):
         res = es.search(index = INDEX_NAME, body={"query": {"match_all": {}}})
-        print(" response to search: '%s'\n\n" % (res))
+
+        try:
+            result_list = []
+            for i in range(0, len(res["hits"]["hits"])):
+                result_list.append(res["hits"]["hits"])
+                print(res["hits"]["hits"][i]["_source"], "\n")
+            print("\n")
+            return result_list
+        except:
+            return []
 
 
     #############################################################
@@ -96,8 +105,15 @@ class ES:
             "aggs": {
                 "nb_heure_total": { "sum": { "field": "nb_heure" } }
             }})
-        
-        print("Nombre d'heures total: '%s'\n\n" % (res))
+        try:
+            total_hours = res["aggregations"]["nb_heure_total"]["value"]
+            print("> Nombre d'heures totale est: '%s'\n\n" % total_hours)
+            return total_hours
+        except:
+            print("Champs inexistant. Nombre d'heure total nul.\n\n")
+            return 0
+
+
 
 
     def minimax(self, es, term_type):
@@ -108,29 +124,39 @@ class ES:
             term = "asc"
             agg_name = "list_heure_min"
         res = es.search(index = self.index_name, body={
-        "size": 0,
-        "aggs": {
-            "group_by_nb_heure": {
-            "terms": {
-                "field": "nb_heure",
-                "order": {
-                "_term": term
-                },
-                "size": 1
-            },
+            "size": 0,
             "aggs": {
-                agg_name: {
-                "top_hits": {
-                    "from": 0,
-                    "size": 10
-                }
+                "group_by_nb_heure": {
+                    "terms": {
+                        "field": "nb_heure",
+                        "order": {
+                            "_key": term
+                        },
+                        "size": 1
+                    },
+                    "aggs": {
+                        agg_name: {
+                            "top_hits": {
+                                "from": 0,
+                                "size": 10
+                            }
+                        }
+                    }
                 }
             }
-            }
-        }
         })
-        print("Liste heure %s: '%s'\n\n" % (term_type, res))
 
+        result_list = []
+        try:
+            print("> Liste des matieres ayant le nombre d'heures '%s' \n"% term_type)
+            result_list_agg = res["aggregations"]["group_by_nb_heure"]["buckets"][0][agg_name]["hits"]["hits"]
+            for i in range(0, len(result_list_agg)):
+                result_list.append(result_list_agg[i]["_source"])
+                print(result_list_agg[i]["_source"], "\n")
+            print("\n")
+            return result_list
+        except:
+            return []
 
 
     def list_min_hour(self, es):
