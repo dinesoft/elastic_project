@@ -1,10 +1,11 @@
 from elasticsearch import Elasticsearch
 import csv
 import json
+from datetime import datetime
 
 # configure elasticsearch
 
-FILE_URL = "D:/Etudes/ESGI/M1/S2/elastic_search/data.csv"
+FILE_URL = "data/data.csv"
 ES_HOST = {"host" : "localhost", "port" : 9200}
 INDEX_NAME = 'esgi'
 TYPE_NAME = 'matiere'
@@ -43,6 +44,9 @@ class ES:
                 for i in range(len(row)):
                     if header[i] == "nb_heure":
                         data_dict[header[i]] = int(row[i])
+                    # else:
+                    #     if header[i].startswith("date"):
+                    #         data_dict[header[i]] = datetime.strptime(row[i], "")
                     else:
                         data_dict[header[i]] = row[i]
                 op_dict = {
@@ -84,7 +88,6 @@ class ES:
 
     def es_search(self, es):
         res = es.search(index = INDEX_NAME, body={"query": {"match_all": {}}})
-
         try:
             result_list = []
             for i in range(0, len(res["hits"]["hits"])):
@@ -105,6 +108,7 @@ class ES:
             "aggs": {
                 "nb_heure_total": { "sum": { "field": "nb_heure" } }
             }})
+        print(res)
         try:
             total_hours = res["aggregations"]["nb_heure_total"]["value"]
             print("> Nombre d'heures totale est: '%s'\n\n" % total_hours)
@@ -119,10 +123,8 @@ class ES:
     def minimax(self, es, term_type):
         if term_type == "max":
             term = "desc"
-            agg_name = "list_heure_max"
         else:
             term = "asc"
-            agg_name = "list_heure_min"
         res = es.search(index = self.index_name, body={
             "size": 0,
             "aggs": {
@@ -135,7 +137,7 @@ class ES:
                         "size": 1
                     },
                     "aggs": {
-                        agg_name: {
+                        "list_heure_" + term_type: {
                             "top_hits": {
                                 "from": 0,
                                 "size": 10
@@ -149,7 +151,7 @@ class ES:
         result_list = []
         try:
             print("> Liste des matieres ayant le nombre d'heures '%s' \n"% term_type)
-            result_list_agg = res["aggregations"]["group_by_nb_heure"]["buckets"][0][agg_name]["hits"]["hits"]
+            result_list_agg = res["aggregations"]["group_by_nb_heure"]["buckets"][0]["list_heure_" + term_type]["hits"]["hits"]
             for i in range(0, len(result_list_agg)):
                 result_list.append(result_list_agg[i]["_source"])
                 print(result_list_agg[i]["_source"], "\n")
@@ -164,7 +166,35 @@ class ES:
 
     def list_max_hour(self, es):
         self.minimax(es, "max")
-    
+
+
+    def search_on_field(self, es, field, field_name):
+        res = es.search(index = self.index_name, body={
+            "query": {
+                "match": {
+                    field : {
+                        "query": field_name
+                    }
+                }
+            }
+        })
+        try:
+            print("> Recherche '%s et '%s' \n"% (field, field_name))
+            result_list = []
+            for i in range(0, len(res["hits"]["hits"])):
+                print(res["hits"]["hits"][i]["_source"], "\n")
+                result_list.append(res["hits"]["hits"][i]["_source"])
+            print("\n")
+            return result_list
+        except:
+            return []
+
+    def search_on_name(self, es, name):
+        self.search_on_field(es, "nom", name)
+
+    def search_on_category(self, es, category):
+        self.search_on_field(es, "categorie", category)
+   
 
 if __name__=="__main__":
 
@@ -177,3 +207,8 @@ if __name__=="__main__":
     es_object.total_hours(es_client)
     es_object.list_min_hour(es_client)
     es_object.list_max_hour(es_client)
+
+    # TEST on anglais and big data
+    # TODO: change anglais, and big data and put variables
+    es_object.search_on_name(es_client, "anglais")
+    es_object.search_on_category(es_client, "big data")
