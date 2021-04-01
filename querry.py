@@ -4,7 +4,7 @@ import json
 
 # configure elasticsearch
 
-FILE_URL = "D:/Etudes/ESGI/M1/S2/elastic_search/data.csv"
+FILE_URL = "data/data.csv"
 ES_HOST = {"host" : "localhost", "port" : 9200}
 INDEX_NAME = 'esgi'
 TYPE_NAME = 'matiere'
