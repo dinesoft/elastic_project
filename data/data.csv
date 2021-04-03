@@ -1,4 +1,4 @@
-nom;categorie;nb_heure;date_pre_cours;date_dern_cours;description
+nom;categorie;nb_heure;date_pre_cours;date_der_cours;description
 anglais;communication et management;27;09-12-2020;02-12-2021;apprentissage de la langue anglaise
 bi;big data;30;9-24-20;2-24-21;apprentissage de la business intelligence
 communication_pro;communication et management;15;09-12-2020;02-12-2021;apprendre à mieux communiquer

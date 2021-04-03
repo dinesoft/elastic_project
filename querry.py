@@ -14,11 +14,11 @@ TYPE_NAME = 'matiere'
 
 class ES:
 
-    def __init__(self, 
-                filepath, 
+    def __init__(self,
+                filepath,
                 index_name,
                 type_name,
-                es_hostname="localhost", 
+                es_hostname="localhost",
                 es_port=9200):
 
         self.filepath = filepath
@@ -32,13 +32,13 @@ class ES:
     #############################################################
 
     def load_data_from_file(self):
-        data = [] 
+        data = []
         with open(self.filepath, newline='') as csvfile:
-            csv_file_object = csv.reader(csvfile, 
-                                        delimiter=';', 
+            csv_file_object = csv.reader(csvfile,
+                                        delimiter=';',
                                         quotechar='|')
             header = next(csv_file_object)
-            row_number = 0 
+            row_number = 0
             for row in csv_file_object:
                 data_dict = {}
                 for i in range(len(row)):
@@ -51,8 +51,8 @@ class ES:
                         data_dict[header[i]] = row[i]
                 op_dict = {
                     "index": {
-                        "_index": self.index_name, 
-                        "_type": self.type_name, 
+                        "_index": self.index_name,
+                        "_type": self.type_name,
                         "_id": str(row_number)
                     }
                 }
@@ -91,13 +91,12 @@ class ES:
         try:
             result_list = []
             for i in range(0, len(res["hits"]["hits"])):
-                result_list.append(res["hits"]["hits"])
-                print(res["hits"]["hits"][i]["_source"], "\n")
-            print("\n")
+                # print(res["hits"]["hits"][i]["_source"], "\n")
+                result_list.append(res["hits"]["hits"][i]["_source"])
+            # print("\n")
             return result_list
         except:
             return []
-
 
     #############################################################
     ########       ELASTIC-SEARCH QUERRIES             ##########
@@ -108,17 +107,14 @@ class ES:
             "aggs": {
                 "nb_heure_total": { "sum": { "field": "nb_heure" } }
             }})
-        print(res)
+        # print(res)
         try:
             total_hours = res["aggregations"]["nb_heure_total"]["value"]
-            print("> Nombre d'heures totale est: '%s'\n\n" % total_hours)
+            # print("> Nombre d'heures totale est: '%s'\n\n" % total_hours)
             return total_hours
         except:
             print("Champs inexistant. Nombre d'heure total nul.\n\n")
             return 0
-
-
-
 
     def minimax(self, es, term_type):
         if term_type == "max":
@@ -150,23 +146,21 @@ class ES:
 
         result_list = []
         try:
-            print("> Liste des matieres ayant le nombre d'heures '%s' \n"% term_type)
+            # print("> Liste des matieres ayant le nombre d'heures '%s' \n"% term_type)
             result_list_agg = res["aggregations"]["group_by_nb_heure"]["buckets"][0]["list_heure_" + term_type]["hits"]["hits"]
             for i in range(0, len(result_list_agg)):
                 result_list.append(result_list_agg[i]["_source"])
-                print(result_list_agg[i]["_source"], "\n")
-            print("\n")
+                # print(result_list_agg[i]["_source"], "\n")
+            # print("\n")
             return result_list
         except:
             return []
 
-
     def list_min_hour(self, es):
-        self.minimax(es, "min")
+        return self.minimax(es, "min")
 
     def list_max_hour(self, es):
-        self.minimax(es, "max")
-
+        return self.minimax(es, "max")
 
     def search_on_field(self, es, field, field_name):
         res = es.search(index = self.index_name, body={
@@ -179,22 +173,22 @@ class ES:
             }
         })
         try:
-            print("> Recherche '%s et '%s' \n"% (field, field_name))
+            # print("> Recherche '%s' et '%s' \n"% (field, field_name))
             result_list = []
             for i in range(0, len(res["hits"]["hits"])):
-                print(res["hits"]["hits"][i]["_source"], "\n")
+                # print(res["hits"]["hits"][i]["_source"], "\n")
                 result_list.append(res["hits"]["hits"][i]["_source"])
-            print("\n")
+            # print("\n")
             return result_list
         except:
             return []
 
     def search_on_name(self, es, name):
-        self.search_on_field(es, "nom", name)
+        return self.search_on_field(es, "nom", name)
 
     def search_on_category(self, es, category):
-        self.search_on_field(es, "categorie", category)
-   
+        return self.search_on_field(es, "categorie", category)
+
 
 if __name__=="__main__":
 

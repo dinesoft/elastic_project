@@ -1,0 +1,25 @@
+.container {
+    padding-top: 100px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: black;
+    font-family: "Helvetica Neue", sans-serif;
+}
+
+[type="search"] {
+   -webkit-appearance: textfield;
+   -webkit-box-sizing: content-box;
+}
+
+form{
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.tableau{
+    border-collapse : collapse;
+}
