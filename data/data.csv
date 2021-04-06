@@ -2,11 +2,11 @@ nom;categorie;nb_heure;date_pre_cours;date_der_cours;description
 anglais;communication et management;27;09-12-2020;02-12-2021;apprentissage de la langue anglaise
 bi;big data;30;9-24-20;2-24-21;apprentissage de la business intelligence
 communication_pro;communication et management;15;09-12-2020;02-12-2021;apprendre à mieux communiquer
-deep_learning;big data;15;9-24-20;2-24-21;decouverte d'algorithmes de deep learning
-cours_electif;communication et management;15;09-12-2020;02-12-2021;cours electif permettant à chacun de développer des connaissances dans le module de son choix
-aws;big data;30;9-24-20;2-24-21;decouverte de l'environnement aws
+deep_learning;big data;15;9-24-20;2-24-21;decouverte de differents algorithmes de deep learning
+cours_electif;communication et management;15;09-12-2020;02-12-2021;cours electif permettant a chacun de developper des connaissances dans le module de son choix
+aws;big data;30;9-24-20;2-24-21;decouverte de l environnement aws
 management;communication et management;15;09-12-2020;02-12-2021;apprentissage des notions principales de management
-mathematiques;maths;15;9-24-20;2-24-21;developpement de connaissances mathématiques pour le big data
+mathematiques;maths;15;9-24-20;2-24-21;developpement de connaissances mathematiques pour le big data
 scala;big data;15;09-12-2020;02-12-2021;developpement scala
 spark;big data;30;9-24-20;2-24-21;developpement scala
 e-learning;communication et management;20;09-12-2020;02-12-2021;apprentissage de notions sur des plateformes differentes
