@@ -15,7 +15,8 @@ def index():
     # affichage de la page
     totalHours = es_object.total_hours(es_client)
     rows = es_object.es_search(es_client)
-    page = formatPage(rows, totalHours)
+    categories = es_object.get_categories(es_client)
+    page = formatPage(rows, totalHours, categories)
     return make_response(render_template("page.html", page=page))
 
 
@@ -27,10 +28,11 @@ def searchInput():
 
     totalHours = es_object.total_hours(es_client)
     rows = es_object.search_on_name(es_client, request.form['searchInput'])
+    categories = es_object.get_categories(es_client)
     if not rows:
         rows = es_object.es_search(es_client)
 
-    page = formatPage(rows, totalHours)
+    page = formatPage(rows, totalHours, categories)
 
     return make_response(render_template("page.html", page=page))
 
@@ -43,10 +45,11 @@ def searchCategory():
 
     totalHours = es_object.total_hours(es_client)
     rows = es_object.search_on_category(es_client, request.form['categorie'])
+    categories = es_object.get_categories(es_client)
     if not rows:
         rows = es_object.es_search(es_client)
 
-    page = formatPage(rows, totalHours)
+    page = formatPage(rows, totalHours, categories)
 
     return make_response(render_template("page.html", page=page))
 
@@ -58,10 +61,11 @@ def searchMax():
 
     totalHours = es_object.total_hours(es_client)
     rows = es_object.list_max_hour(es_client)
+    categories = es_object.get_categories(es_client)
     if not rows:
         rows = es_object.es_search(es_client)
 
-    page = formatPage(rows, totalHours)
+    page = formatPage(rows, totalHours, categories)
 
     return make_response(render_template("page.html", page=page))
 
@@ -73,10 +77,11 @@ def searchMin():
 
     totalHours = es_object.total_hours(es_client)
     rows = es_object.list_min_hour(es_client)
+    categories = es_object.get_categories(es_client)
     if not rows:
         rows = es_object.es_search(es_client)
 
-    page = formatPage(rows, totalHours)
+    page = formatPage(rows, totalHours, categories)
 
     return make_response(render_template("page.html", page=page))
 

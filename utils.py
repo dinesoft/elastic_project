@@ -10,12 +10,16 @@ class ItemTable(Table):
     description = Col('Description')
 
 
-def formatPage(rows, totalHours):
+def formatPage(rows, totalHours, categories):
 
     table = ItemTable(rows, classes=['tableau'], border=1)
-
+    listCategory = []
+    for cat in categories:
+        listCategory.append({'name': cat})
+    print(listCategory)
     page = {
         "totalHours": totalHours,
-        "table": table
+        "table": table,
+        "categories": listCategory
     }
     return page

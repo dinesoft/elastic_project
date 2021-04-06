@@ -20,10 +20,11 @@
         <input type="submit" name="valider" class="valider_button" value="Valider">
 
         <SELECT name="categorie" size="1" style="margin-left:7%">
-        <OPTION>communication et management
-        <OPTION>big data
-        <OPTION>maths
+        {% for o in page.categories %}
+        <option value="{{ o.name }}">{{ o.name }}</option>
+        {% endfor %}
         </SELECT>
+
 
         <input type="submit" name="searchCategory" class="valider_button" value="Valider" formaction = "http://localhost:5000/searchCategory">
 

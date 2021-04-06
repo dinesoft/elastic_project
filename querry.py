@@ -189,6 +189,18 @@ class ES:
     def search_on_category(self, es, category):
         return self.search_on_field(es, "categorie", category)
 
+    def get_categories(self, es):
+        all_data = self.es_search(es)
+        categories = []
+        i = 0
+        for k in all_data:
+            category = k["categorie"]
+            if category not in categories:
+                categories.append(category)
+
+            i += 1
+        return categories
+
 
 if __name__=="__main__":
 
